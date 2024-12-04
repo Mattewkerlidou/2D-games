@@ -1,5 +1,4 @@
 #include <vector>
-
 #include "Moteur.h"
 #include "Image.h"
 #include "Personnage.h"
@@ -11,21 +10,28 @@ int main(int, char**) // Version special du main, ne pas modifier
     // Initialisation du jeu
     Moteur moteur("Mon super jeu vidéo");
 
+
     // TODO: charger images, creer personnages, etc.
 
     bool quitter = false, chest=false;
     int x=0,y=0;
-    Image fond, chest_close, chest_open;
+    Image fond, chest_close, chest_open,mcharac,spritenemie;
     try
     {
         fond = Image(moteur, "assets/fond.png");
         chest_close = Image(moteur,"assets/coffre_ferme.png");
         chest_open = Image(moteur,"assets/coffre_ouvert.png");
+        mcharac = Image(moteur,"assets/personnages.png");
+        spritenemie= Image(moteur,"assets/personnages.png");
+
     }
     catch (const invalid_argument& e )
     {
         cerr << "L'image spécifiée n'a pas été trouvé " << endl;
     }
+    Personnage hero , enemie;
+    hero = Personnage(x,y,64,0,mcharac);
+    enemie = Personnage( 16 , 64, 160,0,spritenemie);
 
     // Boucle de jeu, appelee a chaque fois que l'ecran doit etre mis a jour
     // (en general, 60 fois par seconde)
@@ -50,16 +56,20 @@ int main(int, char**) // Version special du main, ne pas modifier
                 chest= false;
                 break;
             case DROITE_APPUYE:
-                x+=TAILLE_CASE;
+                if(hero.getcoox()!=LARGEUR_FENETRE-TAILLE_CASE)
+                    hero.mouveright();
                 break;
             case HAUT_APPUYE:
-                y-=TAILLE_CASE;
+                if (hero.getcooy()!=0)
+                    hero.mouveup();
                 break;
             case GAUCHE_APPUYE:
-                x-=TAILLE_CASE;
+                if(hero.getcoox()!=0)
+                hero.mouveleft();
                 break;
             case BAS_APPUYE:
-                y+=TAILLE_CASE;
+                if (hero.getcooy()!=HAUTEUR_FENETRE-TAILLE_CASE)
+                    hero.mouvedown();
                 break;
             default:
                 break;
@@ -78,14 +88,15 @@ int main(int, char**) // Version special du main, ne pas modifier
 
         // TODO: afficher vos personnages, objets, etc.
         fond.dessiner(0,0);
-
         if(chest){
-
-            chest_open.dessiner(x,y);
+            chest_open.dessiner(16,16);
         }
         else{
-            chest_close.dessiner(x,y);
+            chest_close.dessiner(16,16);
         }
+        hero.draw();
+        enemie.draw();
+
         /*
           Affiche l'image en se cadencant sur la frequence de
           rafraichissement de l'ecran (donc va en general mettre le
