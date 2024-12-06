@@ -24,26 +24,26 @@ void Personnage::draw() const {
 	void Personnage::mouveright (){
 		_coox+=2;
 		updatedirection(2);
-		animation1();
+		
 	}
 
 	void Personnage::mouveleft (){
 		_coox-=2;
 		updatedirection(1);
-		animation1();
+		
 		
 	}
 	void Personnage::mouveup (){
 		_cooy-=2;
 		updatedirection(3);
-		animation1();
+		
 
 	}
 
 	void Personnage::mouvedown (){
 		_cooy+=2;
 		updatedirection(0);
-		animation1();
+		
 
 	}
 	int Personnage::getcoox() const {
@@ -55,7 +55,15 @@ void Personnage::draw() const {
 	}
 
 	void Personnage::updatedirection(int a){
-		_sprite.selectionnerRectangle(_skinx,_skiny+(a*16),TAILLE_CASE,TAILLE_CASE);
+		//_sprite.selectionnerRectangle(_skinx,_skiny+(a*16),TAILLE_CASE,TAILLE_CASE);
+		if(_anime){
+			_sprite.selectionnerRectangle(_skinx-16,_skiny+(a*16),TAILLE_CASE,TAILLE_CASE);
+			_anime=false;
+		}
+		else{
+			_sprite.selectionnerRectangle(_skinx+16,_skiny+(a*16),TAILLE_CASE,TAILLE_CASE);
+			_anime=true;
+		}
 		
 	}
 
@@ -63,7 +71,8 @@ void Personnage::draw() const {
 void Personnage::IAmouvetoleft(){
 	if(_coox!=0){
 		
-		animation1();
+		updatedirection(_direction);
+		
 		_coox-=2;
 	}else{
 		_direction=2;
@@ -74,7 +83,8 @@ void Personnage::IAmouvetoleft(){
 void Personnage::IAmouvetoright(){
 	if(_coox!=LARGEUR_FENETRE-TAILLE_CASE){
 		
-		animation1();
+		updatedirection(_direction);
+
 		_coox+=2;
 	}else{
 		_direction=1;
@@ -85,7 +95,8 @@ void Personnage::IAmouvetoright(){
 void Personnage::IAmouvetoup(){
 	if(_cooy!=0){
 		
-		animation1();
+		updatedirection(_direction);
+		
 		_cooy-=2;
 	}else{
 		_direction=0;
@@ -96,7 +107,8 @@ void Personnage::IAmouvetoup(){
 void Personnage::IAmouvetodown(){
 	if (_cooy!=HAUTEUR_FENETRE-TAILLE_CASE){
 		
-		animation1();
+		updatedirection(_direction);
+		
 		_cooy+=2;
 	}else{
 		_direction=3;
@@ -125,16 +137,4 @@ void Personnage::avancer (int way){
 
 int Personnage::getdirection(){
 	return _direction;
-}
-
-void Personnage::animation1(){
-	if(_anime){
-	_sprite.selectionnerRectangle(_skinx-16,_skiny+(_direction*16),TAILLE_CASE,TAILLE_CASE);
-	_anime=false;
-	}
-	else{
-	_sprite.selectionnerRectangle(_skinx+16,_skiny+(_direction*16),TAILLE_CASE,TAILLE_CASE);
-	_anime=true;
-	}
-
 }
