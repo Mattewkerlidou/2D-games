@@ -6,14 +6,14 @@
 
 class Personnage {
 private:
-    int _coox, _cooy,_skinx,_skiny;
+    int _coox, _cooy,_skinx,_skiny,_direction;
     Image _sprite;
+    bool _anime=false;
 
 public:
-
     Personnage();
 
-    Personnage(int coox,int cooy,int skin_x,int skin_y,Image sprite);
+    Personnage(int coox,int cooy,int skin_x,int skin_y,int direction,Image sprite);
 
     void draw() const;
 
@@ -25,11 +25,29 @@ public:
 
     void mouvedown ();
     
-    int getcoox();
+    int getcoox() const;
     
-    int getcooy();
+    int getcooy()const;
 
+    void updatedirection(int a);
+
+    void IAmouvetoleft();
+
+    void IAmouvetoright();
+
+    void IAmouvetoup();
+
+    void IAmouvetodown();
+
+    void avancer (int way);
+    
+    int getdirection();
+
+    void animation1();
+    void animation2();
+    
+    bool defeat ();
+    bool victory ();
 
 };
-
 #endif

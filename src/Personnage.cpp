@@ -1,46 +1,140 @@
 #include "Personnage.h"
 
 Personnage::Personnage(){
-    _coox=0;
-    _cooy=0;
+	_coox=0;
+	_cooy=0;
+	_skinx=0;
+	_skiny=0;
+	_direction=0;
 }
-Personnage::Personnage(int coox,int cooy,int skin_x,int skin_y,Image sprite){
-    _coox=coox;
-    _cooy=cooy;
-    _sprite=sprite;
-    _skinx=skin_x;
-    _skiny=skin_y;
-    _sprite.selectionnerRectangle(_skinx,_skiny,16,16);
+Personnage::Personnage(int coox,int cooy,int skin_x,int skin_y,int direction,Image sprite){
+	_coox=coox;
+	_cooy=cooy;
+	_sprite=sprite;
+	_skinx=skin_x;
+	_skiny=skin_y;
+	_direction=direction;
+	_sprite.selectionnerRectangle(_skinx,_skiny+(_direction*16),TAILLE_CASE,TAILLE_CASE);
 }
 
 void Personnage::draw() const {
-    _sprite.dessiner(_coox, _cooy);
+	_sprite.dessiner(_coox, _cooy);
 }
 
-    void Personnage::mouveright (){
-        _coox+=TAILLE_CASE;
-        _sprite.selectionnerRectangle(_skinx,_skiny+32,16,16);
-    }
+	void Personnage::mouveright (){
+		_coox+=2;
+		updatedirection(2);
+		animation1();
+	}
 
-    void Personnage::mouveleft (){
-        _coox-=TAILLE_CASE;
-        _sprite.selectionnerRectangle(_skinx,_skiny+16,16,16);
-        
-    }
-    void Personnage::mouveup (){
-        _cooy-=TAILLE_CASE;
-        _sprite.selectionnerRectangle(_skinx,_skiny+48,16,16);
-    }
+	void Personnage::mouveleft (){
+		_coox-=2;
+		updatedirection(1);
+		animation1();
+		
+	}
+	void Personnage::mouveup (){
+		_cooy-=2;
+		updatedirection(3);
+		animation1();
 
-    void Personnage::mouvedown (){
-        _cooy+=TAILLE_CASE;
-        _sprite.selectionnerRectangle(_skinx,_skiny,16,16);
-    }
-    int Personnage::getcoox(){
-        return _coox;
-    }
-    
-    int Personnage::getcooy(){
-        return _cooy;
-    }
-    
+	}
+
+	void Personnage::mouvedown (){
+		_cooy+=2;
+		updatedirection(0);
+		animation1();
+
+	}
+	int Personnage::getcoox() const {
+		return _coox;
+	}
+	
+	int Personnage::getcooy() const{
+		return _cooy;
+	}
+
+	void Personnage::updatedirection(int a){
+		_sprite.selectionnerRectangle(_skinx,_skiny+(a*16),TAILLE_CASE,TAILLE_CASE);
+		
+	}
+
+
+void Personnage::IAmouvetoleft(){
+	if(_coox!=0){
+		
+		animation1();
+		_coox-=2;
+	}else{
+		_direction=2;
+		updatedirection(_direction);
+	}
+}
+
+void Personnage::IAmouvetoright(){
+	if(_coox!=LARGEUR_FENETRE-TAILLE_CASE){
+		
+		animation1();
+		_coox+=2;
+	}else{
+		_direction=1;
+		updatedirection(_direction);
+	}
+}
+
+void Personnage::IAmouvetoup(){
+	if(_cooy!=0){
+		
+		animation1();
+		_cooy-=2;
+	}else{
+		_direction=0;
+		updatedirection(_direction);
+	}
+}
+
+void Personnage::IAmouvetodown(){
+	if (_cooy!=HAUTEUR_FENETRE-TAILLE_CASE){
+		
+		animation1();
+		_cooy+=2;
+	}else{
+		_direction=3;
+		updatedirection(_direction);
+	}
+}
+void Personnage::avancer (int way){
+	switch (way)
+	{
+	case 0:
+		IAmouvetodown();
+		break;
+	case 1:
+		IAmouvetoleft();
+		break;
+	case 2:
+		IAmouvetoright();
+		break;
+	case 3:
+		IAmouvetoup();
+		break;
+	default:
+		break;
+	}
+}
+
+int Personnage::getdirection(){
+	return _direction;
+}
+
+void Personnage::animation1(){
+	if(_anime){
+	_sprite.selectionnerRectangle(_skinx-16,_skiny+(_direction*16),TAILLE_CASE,TAILLE_CASE);
+	_anime=false;
+	}
+	else{
+	_sprite.selectionnerRectangle(_skinx+16,_skiny+(_direction*16),TAILLE_CASE,TAILLE_CASE);
+	_anime=true;
+	}
+
+}
