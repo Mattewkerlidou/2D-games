@@ -43,11 +43,5 @@ public:
     
     int getdirection();
 
-    void animation1();
-    void animation2();
-    
-    bool defeat ();
-    bool victory ();
-
 };
 #endif
