@@ -2,6 +2,7 @@
 #include "Moteur.h"
 #include "Image.h"
 #include "Personnage.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -13,9 +14,9 @@ int main(int, char**) // Version special du main, ne pas modifier
 
 	// TODO: charger images, creer personnages, etc.
 
-	bool quitter = false/*,win=false,lose=false /*chest=false*/;
+	bool quitter = false;
 	int x=0,y=0;
-	Image fond, chest_close, chest_open,mcharac,spritenemie,spritenemie2,gameover;
+	Image fond, chest_close, chest_open,mcharac,spritenemie,gameover,sprititem;
 	try
 	{
 		fond = Image(moteur, "assets/fond.png");
@@ -23,9 +24,8 @@ int main(int, char**) // Version special du main, ne pas modifier
 		//chest_open = Image(moteur,"assets/coffre_ouvert.png");
 		mcharac = Image(moteur,"assets/personnages.png");
 		spritenemie= Image(moteur,"assets/personnages.png");
-		spritenemie= Image(moteur,"assets/personnages.png");
 		gameover= Image(moteur,"assets/gameover.png");
-
+		sprititem= Image(moteur,"assets/objets.png");
 
 	}
 	catch (const invalid_argument& e )
@@ -35,8 +35,9 @@ int main(int, char**) // Version special du main, ne pas modifier
 	Personnage hero , enemie, enemie2;
 	hero = Personnage(x,y,4*TAILLE_CASE,0*TAILLE_CASE,2,mcharac);
 	enemie = Personnage( 5*TAILLE_CASE , TAILLE_CASE, 10*TAILLE_CASE,0*TAILLE_CASE,1,spritenemie);
-	enemie2 = Personnage( TAILLE_CASE ,5*TAILLE_CASE, 1*TAILLE_CASE,0*TAILLE_CASE,3,spritenemie);
-
+	enemie2 = Personnage( TAILLE_CASE ,5*TAILLE_CASE, 4*TAILLE_CASE,4*TAILLE_CASE,3,spritenemie);
+	Item object;
+	object = Item(0,0,0,0,sprititem);
 
 	// Boucle de jeu, appelee a chaque fois que l'ecran doit etre mis a jour
 	// (en general, 60 fois par seconde)
@@ -100,6 +101,7 @@ int main(int, char**) // Version special du main, ne pas modifier
 
 		// TODO: afficher vos personnages, objets, etc.
 		fond.dessiner(0,0);
+		object.draw();
 		/*if(chest){
 			chest_open.dessiner(16,16);
 		}
@@ -109,12 +111,22 @@ int main(int, char**) // Version special du main, ne pas modifier
 		enemie.draw();
 		enemie2.draw();
 		hero.draw();
-		/*if (lose=((enemie.getcoox()==hero.getcoox() && enemie.getcooy()==hero.getcooy())||(enemie2.getcoox()==hero.getcoox() && enemie2.getcooy()==hero.getcooy()) )){
+		if (hero.touch(enemie)){
 			quitter = true;
 			moteur.initialiserRendu();
-			gameover.dessiner(LARGEUR_FENETRE/4,HAUTEUR_FENETRE/2);
+			gameover.dessiner(LARGEUR_FENETRE/2,HAUTEUR_FENETRE/2);
+			moteur.finaliserRendu();
 			moteur.attendre(2);
-		}*/
+		}
+		else if (hero.touch(enemie2)){
+			quitter = true;
+			moteur.initialiserRendu();
+			gameover.dessiner(LARGEUR_FENETRE/2,HAUTEUR_FENETRE/2);
+			moteur.finaliserRendu();
+
+			moteur.attendre(2);
+		}
+		
 		
 		/*
 			Affiche l'image en se cadencant sur la frequence de

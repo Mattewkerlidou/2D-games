@@ -55,14 +55,29 @@ void Personnage::draw() const {
 	}
 
 	void Personnage::updatedirection(int a){
-		//_sprite.selectionnerRectangle(_skinx,_skiny+(a*16),TAILLE_CASE,TAILLE_CASE);
 		if(_anime){
-			_sprite.selectionnerRectangle(_skinx-16,_skiny+(a*16),TAILLE_CASE,TAILLE_CASE);
-			_anime=false;
+			if(milieu){
+				_sprite.selectionnerRectangle(_skinx,_skiny+(a*16),TAILLE_CASE,TAILLE_CASE);
+				milieu=false;
+			}
+			else{
+				_sprite.selectionnerRectangle(_skinx-16,_skiny+(a*16),TAILLE_CASE,TAILLE_CASE);
+				_anime=false;
+				milieu=true;
+			}
 		}
 		else{
-			_sprite.selectionnerRectangle(_skinx+16,_skiny+(a*16),TAILLE_CASE,TAILLE_CASE);
-			_anime=true;
+			if(milieu){
+				_sprite.selectionnerRectangle(_skinx,_skiny+(a*16),TAILLE_CASE,TAILLE_CASE);
+				milieu=false;
+
+			}
+			else{
+				_sprite.selectionnerRectangle(_skinx+16,_skiny+(a*16),TAILLE_CASE,TAILLE_CASE);
+				_anime=true;
+				milieu=true;
+			}
+
 		}
 		
 	}
@@ -72,7 +87,6 @@ void Personnage::IAmouvetoleft(){
 	if(_coox!=0){
 		
 		updatedirection(_direction);
-		
 		_coox-=2;
 	}else{
 		_direction=2;
@@ -108,14 +122,13 @@ void Personnage::IAmouvetodown(){
 	if (_cooy!=HAUTEUR_FENETRE-TAILLE_CASE){
 		
 		updatedirection(_direction);
-		
 		_cooy+=2;
 	}else{
 		_direction=3;
 		updatedirection(_direction);
 	}
 }
-void Personnage::avancer (int way){
+void Personnage::avancer (int way) {
 	switch (way)
 	{
 	case 0:
@@ -135,6 +148,11 @@ void Personnage::avancer (int way){
 	}
 }
 
-int Personnage::getdirection(){
+int Personnage::getdirection() const{
 	return _direction;
+}
+
+bool Personnage::touch (Personnage people) const{
+
+	return (people.getcoox()==_coox && people.getcooy()==_cooy);
 }

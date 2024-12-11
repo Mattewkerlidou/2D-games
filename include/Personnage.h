@@ -4,11 +4,12 @@
 #include "Image.h" 
 #include "Moteur.h" 
 
+
 class Personnage {
 private:
     int _coox, _cooy,_skinx,_skiny,_direction;
     Image _sprite;
-    bool _anime=false;
+    bool _anime=false,milieu=false;
 
 public:
     Personnage();
@@ -39,9 +40,11 @@ public:
 
     void IAmouvetodown();
 
-    void avancer (int way);
+    void avancer (int way) ;
     
-    int getdirection();
+    int getdirection() const;
+
+    bool touch (Personnage people) const;
 
 };
 #endif

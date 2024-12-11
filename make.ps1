@@ -10,5 +10,7 @@ g++.exe -Wall -fexceptions -Iinclude -ISDL2/include/SDL2 -g  -c src\Image.cpp -o
 g++.exe -Wall -fexceptions -Iinclude -ISDL2/include/SDL2 -g  -c src\main.cpp -o obj\Debug\src\main.o
 g++.exe -Wall -fexceptions -Iinclude -ISDL2/include/SDL2 -g  -c src\Moteur.cpp -o obj\Debug\src\Moteur.o
 g++.exe -Wall -fexceptions -Iinclude -ISDL2/include/SDL2 -g  -c src\Personnage.cpp -o obj\Debug\src\Personnage.o
+g++.exe -Wall -fexceptions -Iinclude -ISDL2/include/SDL2 -g  -c src\Item.cpp -o obj\Debug\src\Item.o
 
-g++.exe  -o bin\Debug\s102.exe obj\Debug\src\Image.o obj\Debug\src\main.o obj\Debug\src\Moteur.o obj\Debug\src\Personnage.o -lmingw32 -LSDL2/lib -lSDL2main -lSDL2 -lSDL2_image
+
+g++.exe  -o bin\Debug\s102.exe obj\Debug\src\Image.o obj\Debug\src\main.o obj\Debug\src\Moteur.o obj\Debug\src\Personnage.o obj\Debug\src\Item.o -lmingw32 -LSDL2/lib -lSDL2main -lSDL2 -lSDL2_image
