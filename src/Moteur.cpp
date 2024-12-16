@@ -42,7 +42,7 @@ Moteur::~Moteur()
 void Moteur::initialiserRendu()
 {
   // On remplie la fenetre avec du noir
-  SDL_SetRenderDrawColor (_renderer, 0, 0, 0, 255);
+  SDL_SetRenderDrawColor (_renderer, 255, 255, 255, 255);
   SDL_RenderClear (_renderer);
 }
 

@@ -156,3 +156,7 @@ bool Personnage::touch (Personnage people) const{
 
 	return (people.getcoox()==_coox && people.getcooy()==_cooy);
 }
+
+void Personnage::afficher(){
+	cout<<"ton Personnage est en x= "<<_coox<<" en y= "<<_cooy<<"sont skinx= "<<_skinx<<" sont skiny="<<_skiny<<endl;
+}

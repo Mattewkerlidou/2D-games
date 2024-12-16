@@ -3,6 +3,8 @@
 #include "Image.h"
 #include "Personnage.h"
 #include "Item.h"
+#include "Maps.h"
+
 
 using namespace std;
 
@@ -17,6 +19,8 @@ int main(int, char**) // Version special du main, ne pas modifier
 	bool quitter = false;
 	int x=0,y=0;
 	Image fond, chest_close, chest_open,mcharac,spritenemie,gameover,sprititem;
+	Maps carte,dictionnaire;
+
 	try
 	{
 		fond = Image(moteur, "assets/fond.png");
@@ -37,8 +41,18 @@ int main(int, char**) // Version special du main, ne pas modifier
 	enemie = Personnage( 5*TAILLE_CASE , TAILLE_CASE, 10*TAILLE_CASE,0*TAILLE_CASE,1,spritenemie);
 	enemie2 = Personnage( TAILLE_CASE ,5*TAILLE_CASE, 4*TAILLE_CASE,4*TAILLE_CASE,3,spritenemie);
 	Item object;
-	object = Item(0,0,0,0,sprititem);
-
+	try{
+    	carte.init("assets/niveau1.txt",sprititem);
+    	dictionnaire.init2("assets/dictionnaire.txt");
+	}
+	catch(const string msg){
+		cerr<< msg <<"\n";
+	}
+	carte.recherchedico(dictionnaire);
+	carte.afficher3();
+	hero.afficher();
+	enemie2.afficher();
+	enemie.afficher();
 	// Boucle de jeu, appelee a chaque fois que l'ecran doit etre mis a jour
 	// (en general, 60 fois par seconde)
 	while (!quitter)
@@ -56,10 +70,8 @@ int main(int, char**) // Version special du main, ne pas modifier
 				break;
 			// TODO: gerer les autres evenements
 			case ESPACE_APPUYE:
-				//chest= true;
 				break;
 			case ESPACE_RELACHE:
-				//chest= false;
 				break;
 			case DROITE_APPUYE:
 				if(hero.getcoox()!=LARGEUR_FENETRE-TAILLE_CASE){
@@ -101,29 +113,15 @@ int main(int, char**) // Version special du main, ne pas modifier
 
 		// TODO: afficher vos personnages, objets, etc.
 		fond.dessiner(0,0);
-		object.draw();
-		/*if(chest){
-			chest_open.dessiner(16,16);
-		}
-		else{
-			chest_close.dessiner(16,16);
-		}*/
+		carte.drawmaps();
 		enemie.draw();
 		enemie2.draw();
 		hero.draw();
-		if (hero.touch(enemie)){
+		if (hero.touch(enemie)||hero.touch(enemie2)){
 			quitter = true;
 			moteur.initialiserRendu();
-			gameover.dessiner(LARGEUR_FENETRE/2,HAUTEUR_FENETRE/2);
+			gameover.dessiner((LARGEUR_FENETRE-gameover.getLargeur())/2,(HAUTEUR_FENETRE-gameover.getHauteur())/2);
 			moteur.finaliserRendu();
-			moteur.attendre(2);
-		}
-		else if (hero.touch(enemie2)){
-			quitter = true;
-			moteur.initialiserRendu();
-			gameover.dessiner(LARGEUR_FENETRE/2,HAUTEUR_FENETRE/2);
-			moteur.finaliserRendu();
-
 			moteur.attendre(2);
 		}
 		

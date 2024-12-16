@@ -4,7 +4,7 @@
 #include "Image.h" 
 #include "Moteur.h" 
 
-
+using namespace std;
 class Personnage {
 private:
     int _coox, _cooy,_skinx,_skiny,_direction;
@@ -45,6 +45,7 @@ public:
     int getdirection() const;
 
     bool touch (Personnage people) const;
+    void afficher();
 
 };
 #endif
