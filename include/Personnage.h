@@ -45,7 +45,6 @@ public:
     int getdirection() const;
 
     bool touch (Personnage people) const;
-    void afficher();
 
 };
 #endif

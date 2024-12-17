@@ -20,10 +20,11 @@ public:
     void init(const string& namefiles,Image sprite);
     void init2(const string& namefiles);
 
-    void afficher3();
+    //void afficher3();
 
     void recherchedico (Maps carte);
     void drawmaps();
+    bool caselibre(int coox,int cooy);
 
 
 

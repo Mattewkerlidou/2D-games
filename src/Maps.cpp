@@ -17,13 +17,13 @@ void Maps::init(const string& namefiles,Image sprite){
 	read.close();
 }
 
-void Maps::afficher3(){
+/*void Maps::afficher3(){
 	
 	cout<<_nbElement;
 	for (int i=0;i<_nbElement;i++){
 		_carte[i].affichertous();
 	}
-}
+}*/
 
 
 void Maps::init2(const string& namefiles){
@@ -77,5 +77,14 @@ void Maps::drawmaps(){
 	for (int i=0;i<_nbElement;i++){
 		_carte[i].draw();
 	}
+}
+
+bool Maps::caselibre(int coox,int cooy){
+	for (int i=0;i<_nbElement;i++){
+		if(_carte[i].gettype()=="solide" && (_carte[i].getitemx()<coox && _carte[i].getitemx()+15>coox) && (_carte[i].getitemy()<cooy && _carte[i].getitemy()+15>cooy) ){
+				return false;
+		}
+	}
+	return true;
 }
 

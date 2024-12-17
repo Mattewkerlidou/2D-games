@@ -17,7 +17,6 @@ int main(int, char**) // Version special du main, ne pas modifier
 	// TODO: charger images, creer personnages, etc.
 
 	bool quitter = false;
-	int x=0,y=0;
 	Image fond, chest_close, chest_open,mcharac,spritenemie,gameover,sprititem;
 	Maps carte,dictionnaire;
 
@@ -37,7 +36,7 @@ int main(int, char**) // Version special du main, ne pas modifier
 		cerr << "L'image spécifiée n'a pas été trouvé " << endl;
 	}
 	Personnage hero , enemie, enemie2;
-	hero = Personnage(x,y,4*TAILLE_CASE,0*TAILLE_CASE,2,mcharac);
+	hero = Personnage(5*TAILLE_CASE,6*TAILLE_CASE,4*TAILLE_CASE,0*TAILLE_CASE,2,mcharac);
 	enemie = Personnage( 5*TAILLE_CASE , TAILLE_CASE, 10*TAILLE_CASE,0*TAILLE_CASE,1,spritenemie);
 	enemie2 = Personnage( TAILLE_CASE ,5*TAILLE_CASE, 4*TAILLE_CASE,4*TAILLE_CASE,3,spritenemie);
 	Item object;
@@ -49,10 +48,7 @@ int main(int, char**) // Version special du main, ne pas modifier
 		cerr<< msg <<"\n";
 	}
 	carte.recherchedico(dictionnaire);
-	carte.afficher3();
-	hero.afficher();
-	enemie2.afficher();
-	enemie.afficher();
+	//carte.afficher3();
 	// Boucle de jeu, appelee a chaque fois que l'ecran doit etre mis a jour
 	// (en general, 60 fois par seconde)
 	while (!quitter)
@@ -74,24 +70,28 @@ int main(int, char**) // Version special du main, ne pas modifier
 			case ESPACE_RELACHE:
 				break;
 			case DROITE_APPUYE:
-				if(hero.getcoox()!=LARGEUR_FENETRE-TAILLE_CASE){
-					hero.mouveright();
-				}
+				//if (carte.caselibre(hero.getcoox(),hero.getcooy()))
+					if(hero.getcoox()!=LARGEUR_FENETRE-TAILLE_CASE){
+						hero.mouveright();
+					}
 				break;
 			case HAUT_APPUYE:
-				if (hero.getcooy()!=0){
-					hero.mouveup();
-				}		
+				//if (carte.caselibre(hero.getcoox(),hero.getcooy()))
+					if (hero.getcooy()!=0){
+						hero.mouveup();
+					}		
 				break;
 			case GAUCHE_APPUYE:
-				if (hero.getcoox()!=0){
-					hero.mouveleft();
-				}
+				//if (carte.caselibre(hero.getcoox(),hero.getcooy()))
+					if (hero.getcoox()!=0){
+						hero.mouveleft();
+					}
 				break;
 			case BAS_APPUYE:
-				if (hero.getcooy()!=HAUTEUR_FENETRE-TAILLE_CASE){
-					hero.mouvedown();
-				}
+				//if (carte.caselibre(hero.getcoox(),hero.getcooy()))
+					if (hero.getcooy()!=HAUTEUR_FENETRE-TAILLE_CASE){
+						hero.mouvedown();
+					}
 				break;
 			default:
 				break;
@@ -104,8 +104,12 @@ int main(int, char**) // Version special du main, ne pas modifier
 
 		// TODO: faire bouger vos personnages, etc.
 		if(moteur.animationsAmettreAjour()){
-			enemie2.avancer(enemie2.getdirection());
-			enemie.avancer(enemie.getdirection());
+			if (carte.caselibre(enemie2.getcoox(),enemie2.getcooy())){
+				enemie2.avancer(enemie2.getdirection());
+			}
+			if (carte.caselibre(enemie.getcoox(),enemie.getcooy())){
+				enemie.avancer(enemie.getdirection());
+			}
 		}
 		// III. Generation de l'image à afficher
 
